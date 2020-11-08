@@ -13,7 +13,8 @@ class MainController: UIViewController {
     
     fileprivate let topView = TopViewMC()
     fileprivate let bottomView = BottomViewMC()
-    fileprivate let extraView = UIView()
+    fileprivate let extraTopView = UIView()
+    fileprivate let extraBottomView = UIView()
     fileprivate var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
     
     let realm = try! Realm()
@@ -48,18 +49,21 @@ class MainController: UIViewController {
     fileprivate func setLayout(collectionView : UICollectionView) {
         
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)
-        extraView.backgroundColor = topView.backgroundColor
+        extraTopView.backgroundColor = topView.backgroundColor
+        extraBottomView.backgroundColor = bottomView.backgroundColor
         collectionView.backgroundColor = UIColor.rgb(red: 46, green: 46, blue: 46)
         
-        [topView,extraView,bottomView,collectionView].forEach { view.addSubview($0) }
+        [topView,extraTopView,bottomView,extraBottomView,collectionView].forEach { view.addSubview($0) }
         
         _ = topView.anchor(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,size: .init(width: 0, height: view.frame.height/17))
-        _ = extraView.anchor(top: view.topAnchor, bottom: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
-        _ = bottomView.anchor(top: nil, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, size: .init(width: 0, height: view.frame.height/17))
+        _ = extraTopView.anchor(top: view.topAnchor, bottom: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
+        _ = bottomView.anchor(top: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, size: .init(width: 0, height: view.frame.height/15))
+        _ = extraBottomView.anchor(top: bottomView.bottomAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
         _ = collectionView.anchor(top: topView.bottomAnchor, bottom: bottomView.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
         
         topView.addButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
         topView.editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+        bottomView.statisticsViewButton.addTarget(self, action: #selector(statisticButtonPressed), for: .touchUpInside)
         
     }
     
@@ -162,6 +166,11 @@ class MainController: UIViewController {
                 navigationController?.pushViewController(vc, animated: true)
             }
         }
+    }
+    
+    @objc fileprivate func statisticButtonPressed() {
+        let vc = StatisticsController()
+        navigationController?.pushViewController(vc, animated: false)
     }
 }
 
