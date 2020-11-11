@@ -66,7 +66,19 @@ class WorkoutStatisticController: UIViewController {
         
         for date in uniqueDates {
             averageOneRM = 0.0
-            
+            for currentExerciseDate in currentDateList {
+                oneRM = 0.0
+                if date == Int(currentExerciseDate.date.prefix(7).suffix(2)) {
+                    for details in currentExerciseDate.exerciseDetails {
+                        oneRM += details.oneRM
+                    }
+                    averageOneRM += oneRM/Double(currentExerciseDate.exerciseDetails.count)
+                    print("average oneRM : ",averageOneRM)
+                }
+            }
+            let yValue = averageOneRM/Double(currentDateList.count)
+            let xValue = Double(date)
+            entries.append(BarChartDataEntry(x: xValue, y: yValue))
         }
         
         //modify chart view
