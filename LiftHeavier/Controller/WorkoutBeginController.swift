@@ -74,6 +74,7 @@ class WorkoutBeginController: UIViewController {
 
     
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         deleteCurrentDetails()
         deleteCompletedExercises()
         NotificationCenter.default.removeObserver(self)

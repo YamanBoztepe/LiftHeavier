@@ -20,6 +20,19 @@ class MainController: UIViewController {
     let realm = try! Realm()
     var windowSettingsList : Results<WindowSettingsModel>? {
         didSet {
+            
+            for windowData in windowSettingsList! {
+                if windowData.exercises.count == 0 {
+                    do {
+                        try realm.write {
+                            realm.delete(windowData)
+                        }
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+            
             collectionView.reloadData()
         }
     }
@@ -40,10 +53,10 @@ class MainController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         windowSettingsList = realm.objects(WindowSettingsModel.self)
-        
-       
     }
+    
     
     
     fileprivate func setLayout(collectionView : UICollectionView) {

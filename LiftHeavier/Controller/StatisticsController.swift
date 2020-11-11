@@ -32,6 +32,7 @@ class StatisticsController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         windowSettingsList = realm.objects(WindowSettingsModel.self)
     }
 
@@ -57,6 +58,7 @@ class StatisticsController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(WindowTableCell.self, forCellReuseIdentifier: "cell")
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
     fileprivate func fetchDataForCell(_ indexPath: IndexPath, _ cell: WindowTableCell) {
@@ -105,6 +107,9 @@ extension StatisticsController : UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        guard let selectedWindow = windowSettingsList?[indexPath.row] else { return }
+        let vc = WorkoutStatisticController()
+        vc.windowSettingsList = selectedWindow
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
