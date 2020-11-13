@@ -11,9 +11,15 @@ import RealmSwift
 import Charts
 
 class WorkoutStatisticController: UIViewController {
-
+    
     fileprivate let extraView = UIView()
     fileprivate let topView = TopViewWithBackButton()
+    fileprivate let oneRepMaxLbl : UILabel = {
+        let lbl = UILabel()
+        lbl.textColor = .white
+        lbl.textAlignment = .center
+        return lbl
+    }()
     
     let realm = try! Realm()
     var windowSettingsList  = WindowSettingsModel()
@@ -21,6 +27,7 @@ class WorkoutStatisticController: UIViewController {
         didSet {
             collectionView.reloadData()
             setChart()
+            oneRepMaxLbl.text = String(format:"\(YOUR_ONERM)%.0f",getBiggestOneRM())
         }
     }
     
@@ -38,61 +45,83 @@ class WorkoutStatisticController: UIViewController {
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)
         extraView.backgroundColor = topView.backgroundColor
         collectionView.backgroundColor = .clear
-        [extraView,topView,collectionView,barChart].forEach { view.addSubview($0) }
+        [extraView,topView,collectionView,barChart,oneRepMaxLbl].forEach { view.addSubview($0) }
         
         _ = extraView.anchor(top: view.topAnchor, bottom: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
         _ = topView.anchor(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,size: .init(width: 0, height: view.frame.height/15))
         _ = collectionView.anchor(top: topView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,size: .init(width: 0, height: view.frame.width/7))
         _ = barChart.anchor(top: collectionView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,padding: .init(top: view.frame.height/30, left: view.frame.height/50, bottom: 0, right: view.frame.height/50),size: .init(width: 0, height: view.frame.height/2))
+        _ = oneRepMaxLbl.anchor(top: barChart.bottomAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
         
+        oneRepMaxLbl.font = UIFont.boldSystemFont(ofSize: view.frame.width/20)
         topView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
     }
     
     fileprivate func setChart() {
         
-        var exerciseDates = [Int]()
-        guard let currentDateList = currentExercise?.exerciseDateList else { return }
-        for dates in currentDateList {
-            let numberOfMonth = Int((dates.date.prefix(7).suffix(2))) ?? 1
-            exerciseDates.append(numberOfMonth)
-            
-        }
-        
-        let uniqueDates = Array(Set(exerciseDates))
+        guard let currentDate = currentExercise?.exerciseDateList else { return }
+        var numberOfDates = [Int]()
         var entries = [BarChartDataEntry]()
-        var oneRM = 0.0
-        var averageOneRM = 0.0
-        print("dates :",uniqueDates)
         
-        for date in uniqueDates {
-            averageOneRM = 0.0
-            for currentExerciseDate in currentDateList {
-                oneRM = 0.0
-                if date == Int(currentExerciseDate.date.prefix(7).suffix(2)) {
-                    for details in currentExerciseDate.exerciseDetails {
-                        oneRM += details.oneRM
-                    }
-                    averageOneRM += oneRM/Double(currentExerciseDate.exerciseDetails.count)
-                    print("average oneRM : ",averageOneRM)
+        for date in currentDate {
+            if let numberDate = Int(date.date.prefix(4) + date.date.prefix(7).suffix(2)) {
+                numberOfDates.append(numberDate)
+            }
+        }
+        var uniqueDates = Array(Set(numberOfDates))
+        uniqueDates.sort()
+        
+        if let lastElementOfDates = uniqueDates.last {
+            uniqueDates.forEach { date in
+                if date <= lastElementOfDates-100 {
+                    print("Deleted item : ",date)
+                    uniqueDates.remove(at: uniqueDates.firstIndex(of: date)!)
+                    
                 }
             }
-            let yValue = averageOneRM/Double(currentDateList.count)
-            let xValue = Double(date)
-            entries.append(BarChartDataEntry(x: xValue, y: yValue))
+        }
+        
+        print(uniqueDates)
+        
+        for uniqueDate in uniqueDates {
+            var oneRM = 0.0
+            var oneRmCounter = 0
+            var sets = 0
+            for date in currentDate {
+                if let numberDate = Int(date.date.prefix(4) + date.date.prefix(7).suffix(2)) {
+                    if uniqueDate == numberDate {
+                        for details in date.exerciseDetails {
+                            oneRM += details.oneRM
+                            sets = details.numberOfSet
+                        }
+                        oneRmCounter += 1
+                        print("OneRM : ",oneRM," Step : \(oneRmCounter)")
+                    }
+                }
+            }
+            print("Final OneRM : ",oneRM,"--- End ---- Counter : ",oneRmCounter)
+            let averageOneRM = oneRM / (Double(oneRmCounter) * Double(sets))
+            let currentMonth = "\(uniqueDate)".suffix(2)
+            entries.append(BarChartDataEntry(x: Double(currentMonth) ?? 1, y: averageOneRM))
         }
         
         //modify chart view
-        let set = BarChartDataSet(entries: entries)
-        set.colors = ChartColorTemplates.material()
-        set.valueColors = [UIColor.white]
-        let data = BarChartData(dataSet: set)
-        barChart.data = data
-        
-        barChart.rightAxis.enabled = false
-        barChart.leftAxis.enabled = false
-        barChart.legend.enabled = false
-        barChart.xAxis.labelTextColor = .white
-        barChart.xAxis.valueFormatter = IndexAxisValueFormatter(values: months)
+        if currentDate.count > 0 {
+            let set = BarChartDataSet(entries: entries)
+            set.colors = ChartColorTemplates.material()
+            set.valueColors = [UIColor.white]
+            let data = BarChartData(dataSet: set)
+            barChart.data = data
+            
+            barChart.rightAxis.enabled = false
+            barChart.leftAxis.enabled = false
+            let customLegend = LegendEntry(label: AVERAGE_ONERM, form: .none, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: .white)
+            barChart.legend.textColor = .white
+            barChart.legend.entries = [customLegend]
+            barChart.xAxis.labelTextColor = .white
+            barChart.xAxis.valueFormatter = IndexAxisValueFormatter(values: months)
+            
+        }
         
     }
     
@@ -114,6 +143,17 @@ class WorkoutStatisticController: UIViewController {
     
     @objc fileprivate func backButtonPressed() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    fileprivate func getBiggestOneRM() -> Double {
+        guard let details = currentExercise?.exerciseDateList.last?.exerciseDetails else { return 0 }
+        var biggestOneRM = 0.0
+        for detail in details {
+            if detail.oneRM > biggestOneRM {
+                biggestOneRM = detail.oneRM
+            }
+        }
+        return biggestOneRM
     }
 }
 

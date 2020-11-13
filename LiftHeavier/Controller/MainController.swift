@@ -43,20 +43,14 @@ class MainController: UIViewController {
         }
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
         setCollectionView()
         setLayout(collectionView: collectionView)
+        windowSettingsList = realm.objects(WindowSettingsModel.self)
         
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        windowSettingsList = realm.objects(WindowSettingsModel.self)
-    }
-    
     
     
     fileprivate func setLayout(collectionView : UICollectionView) {
@@ -122,17 +116,19 @@ class MainController: UIViewController {
        }
     
     fileprivate func createContainerCell(_ collectionView: UICollectionView, _ indexPath: IndexPath, _ cell: WorkoutCell) -> UICollectionViewCell {
-           let containerCell = collectionView.dequeueReusableCell(withReuseIdentifier: "containerCell", for: indexPath)
-           
-           containerCell.backgroundColor = .clear
-           containerCell.setShadow(opacity: 1, radius: 10, offSet: .init(width: 5, height: 10), color: .black)
-           containerCell.addSubview(cell)
-           
-           _ = cell.anchor(top: containerCell.topAnchor, bottom: containerCell.bottomAnchor, leading: containerCell.leadingAnchor, trailing: containerCell.trailingAnchor)
-           
-           
-           return containerCell
-       }
+        let containerCell = collectionView.dequeueReusableCell(withReuseIdentifier: "containerCell", for: indexPath)
+        containerCell.backgroundColor = .clear
+        containerCell.setShadow(opacity: 1, radius: 10, offSet: .init(width: 5, height: 10), color: .black)
+        containerCell.addSubview(cell)
+        
+        _ = cell.anchor(top: containerCell.topAnchor, bottom: containerCell.bottomAnchor, leading: containerCell.leadingAnchor, trailing: containerCell.trailingAnchor)
+        
+        if containerCell.subviews.count > 1 {
+            containerCell.subviews.first?.removeFromSuperview()
+        
+        }
+        return containerCell
+    }
     
     @objc fileprivate func addButtonPressed() {
         editButtonPressedCounter = 0

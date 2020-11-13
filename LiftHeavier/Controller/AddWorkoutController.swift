@@ -57,6 +57,8 @@ class AddWorkoutController: UIViewController {
     }
     
     @objc fileprivate func saveButtonPressed() {
+        guard let vc = navigationController?.viewControllers.first as? MainController else { return }
+        vc.windowSettingsList = realm.objects(WindowSettingsModel.self)
         navigationController?.popToRootViewController(animated: true)
     }
     
