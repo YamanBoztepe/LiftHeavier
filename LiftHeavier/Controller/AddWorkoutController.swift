@@ -57,6 +57,8 @@ class AddWorkoutController: UIViewController {
     }
     
     @objc fileprivate func saveButtonPressed() {
+        guard let vc = navigationController?.viewControllers.first as? MainController else { return }
+        vc.windowSettingsList = realm.objects(WindowSettingsModel.self)
         navigationController?.popToRootViewController(animated: true)
     }
     
@@ -95,7 +97,18 @@ class AddWorkoutController: UIViewController {
                             exercise.exerciseName = String(exercise.exerciseName.prefix(24))
                             exercise.setNumber = 20
                         }
-                        windowSet.exercises.append(exercise)
+                        
+                        var isItSameExercise : Bool = false
+                        
+                        for checkExercise in windowSet.exercises {
+                            if checkExercise.exerciseName == exercise.exerciseName {
+                                isItSameExercise = true
+                            }
+                        }
+                        
+                        if isItSameExercise == false {
+                            windowSet.exercises.append(exercise)
+                        }
                         
                     }
                 } catch {
@@ -116,7 +129,7 @@ extension AddWorkoutController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        saveButton.isEnabled = exerciseList?.count ?? 0 > 0
+        saveButton.isEnabled = (exerciseList?.count ?? 0) > 0
         return exerciseList?.count ?? 0
     }
     

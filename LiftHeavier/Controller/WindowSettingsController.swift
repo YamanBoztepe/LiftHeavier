@@ -63,6 +63,7 @@ class WindowSettingsController: UIViewController {
     
     
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -78,7 +79,7 @@ class WindowSettingsController: UIViewController {
         [extraView,topView,sectionLabel1,windowSettings,sectionLabel2,collectionView,nextButton].forEach { view.addSubview($0) }
         
         _ = extraView.anchor(top: view.topAnchor, bottom: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
-        _ = topView.anchor(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,size: .init(width: 0, height: 50))
+        _ = topView.anchor(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,size: .init(width: 0, height: view.frame.height/20))
         
         
         _ = sectionLabel1.anchor(top: topView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,padding: .init(top: 10, left: 5, bottom: 0, right: 5),size: .init(width: 0, height: view.frame.height/20))
@@ -187,7 +188,7 @@ extension WindowSettingsController : UICollectionViewDataSource {
         containerCell.setShadow(opacity: 1, radius: 10, offSet: .init(width: 5, height: 10), color: .black)
         containerCell.addSubview(cell)
         _ = cell.anchor(top: containerCell.topAnchor, bottom: containerCell.bottomAnchor, leading: containerCell.leadingAnchor, trailing: containerCell.trailingAnchor)
-        
+         
         
         return containerCell
     }

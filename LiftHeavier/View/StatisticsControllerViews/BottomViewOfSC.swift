@@ -1,26 +1,25 @@
 //
-//  BottomViewOfMainScreen.swift
-//  LiftBetter
+//  BottomViewOfSC.swift
+//  LiftHeavier
 //
-//  Created by Yaman Boztepe on 16.10.2020.
+//  Created by Yaman Boztepe on 8.11.2020.
 //  Copyright © 2020 Yaman Boztepe. All rights reserved.
 //
 
 import UIKit
 
-class BottomViewMC : UIView {
+class BottomViewOfSC: UIView {
     
     let mainViewButton : UIButton = {
         let btn = UIButton(type: .system)
-        btn.setImage(UIImage(named: "whiteDumbbell")?.withRenderingMode(.alwaysOriginal), for: .normal)
-        btn.isEnabled = false
+        btn.setImage(UIImage(named: "grayDumbbell")?.withRenderingMode(.alwaysOriginal), for: .normal)
         return btn
     }()
     
     let statisticsViewButton : UIButton = {
         let btn = UIButton(type: .system)
-        btn.setImage(UIImage(named: "grayChart")?.withRenderingMode(.alwaysOriginal), for: .normal)
-        
+        btn.setImage(UIImage(named: "whiteChart")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        btn.isEnabled = false
         return btn
     }()
     
@@ -50,4 +49,5 @@ class BottomViewMC : UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }

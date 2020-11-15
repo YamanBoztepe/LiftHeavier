@@ -74,6 +74,7 @@ class WorkoutBeginController: UIViewController {
 
     
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         deleteCurrentDetails()
         deleteCompletedExercises()
         NotificationCenter.default.removeObserver(self)
@@ -176,6 +177,13 @@ class WorkoutBeginController: UIViewController {
             return
         } else {
             [cell.weightLiftedTextField,cell.repNumberTextField].forEach { $0.backgroundColor = .white }
+        }
+        
+        if reps > 35 {
+            cell.repNumberTextField.backgroundColor = .red
+            return
+        }else {
+            cell.repNumberTextField.backgroundColor = .white
         }
         
         let dateFormatter = DateFormatter()
