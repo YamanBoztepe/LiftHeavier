@@ -179,6 +179,13 @@ class WorkoutBeginController: UIViewController {
             [cell.weightLiftedTextField,cell.repNumberTextField].forEach { $0.backgroundColor = .white }
         }
         
+        if reps > 35 {
+            cell.repNumberTextField.backgroundColor = .red
+            return
+        }else {
+            cell.repNumberTextField.backgroundColor = .white
+        }
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
         let date = Date()
