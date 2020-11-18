@@ -39,7 +39,7 @@ class StatisticsController: UIViewController {
     fileprivate func setLayout() {
         
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)
-        extraTopView.backgroundColor = topView.backgroundColor
+        extraTopView.backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         extraBottomView.backgroundColor = bottomView.backgroundColor
         tableView.backgroundColor = view.backgroundColor
         

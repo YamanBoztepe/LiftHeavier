@@ -35,30 +35,41 @@ class TopViewMC : UIView {
         let lbl = UILabel()
         lbl.text = TOPVIEW_TITLE
         lbl.textColor = UIColor.rgb(red: 0, green: 128, blue: 0)
-        lbl.font = UIFont.boldSystemFont(ofSize: 18)
         return lbl
+    }()
+    
+    let runningViewButton : UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setImage(UIImage(named: "RunningGray")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        return btn
     }()
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setLayout()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setLayout()
+    }
     
     fileprivate func setLayout() {
         
         backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         
-        [lblText,editButton,addButton].forEach({ addSubview($0) })
+        [runningViewButton,lblText,editButton,addButton].forEach({ addSubview($0) })
         
-        _ = addButton.anchor(top: nil, bottom: nil, leading: nil, trailing: trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: 5),size: .init(width: 35, height: 35))
-        _ = editButton.anchor(top: nil, bottom: nil, leading: nil, trailing: addButton.leadingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: 5),size: .init(width: 45, height: 30))
+        _ = addButton.anchor(top: nil, bottom: nil, leading: nil, trailing: trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: frame.width/40),size: .init(width: frame.width/12, height: frame.height/1.3))
+        _ = editButton.anchor(top: nil, bottom: nil, leading: nil, trailing: addButton.leadingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: frame.width/40),size: .init(width: frame.width/8, height: frame.height/1.5))
+        _ = runningViewButton.anchor(top: nil, bottom: nil, leading: leadingAnchor, trailing: nil,padding: .init(top: 0, left: frame.width/40, bottom: 0, right: 0),size: .init(width: frame.width/12, height: frame.height/1.2))
          
         addButton.positionInCenterSuperView(centerX: nil, centerY: centerYAnchor)
         editButton.positionInCenterSuperView(centerX: nil, centerY: centerYAnchor)
+        runningViewButton.positionInCenterSuperView(centerX: nil, centerY: centerYAnchor)
         
         lblText.positionInCenterSuperView(centerX: centerXAnchor, centerY: centerYAnchor)
+        lblText.font = UIFont.boldSystemFont(ofSize: frame.width/20)
         
         editButton.layer.cornerRadius = 5
         addButton.layer.cornerRadius = 35 / 2

@@ -21,7 +21,6 @@ class WindowSettingsView : UIView {
     let lblText : UILabel = {
         let lbl = UILabel()
         lbl.text = WINDOW_NAME
-        lbl.font = UIFont.boldSystemFont(ofSize: 12)
         lbl.textColor = .white
         return lbl
     }()
@@ -31,7 +30,6 @@ class WindowSettingsView : UIView {
     let lblText2 : UILabel = {
         let lbl = UILabel()
         lbl.text = WINDOW_COLOR
-        lbl.font = UIFont.boldSystemFont(ofSize: 12)
         lbl.textColor = .white
         return lbl
     }()
@@ -112,9 +110,13 @@ class WindowSettingsView : UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         btnList = [btnBlue,btnRed,btnGreen,btnPurple,btnYellow,btnPink]
-        setLayout()
         btnList.forEach { $0.addTarget(self, action: #selector(btnPressed), for: .touchUpInside)}
         
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setLayout()
     }
     
     fileprivate func setLayout() {
@@ -124,12 +126,13 @@ class WindowSettingsView : UIView {
         addSubview(stackView)
         
         _ = stackView.anchor(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor)
-        _ = lblText.anchor(top: stackView.topAnchor, bottom: nil, leading: stackView.leadingAnchor, trailing: nil,padding: .init(top: 0, left: 20, bottom: 0, right: 0))
+        _ = lblText.anchor(top: stackView.topAnchor, bottom: nil, leading: stackView.leadingAnchor, trailing: nil,padding: .init(top: 0, left: frame.width/30, bottom: 0, right: 0))
         _ = txtField.anchor(top: lblText.bottomAnchor, bottom: nil, leading: lblText.leadingAnchor, trailing: nil,padding: .init(top: 0, left: 0, bottom: 0, right: 0))
         
         _ = lblText2.anchor(top: txtField.bottomAnchor, bottom: colorViews.topAnchor, leading: lblText.leadingAnchor, trailing: nil,padding: .init(top: 0, left: 0, bottom: 0, right: 0))
         _ = colorViews.anchor(top: lblText2.bottomAnchor, bottom: stackView.bottomAnchor, leading: lblText.leadingAnchor, trailing: nil,padding: .init(top: 0, left: 0, bottom: 0, right: 0))
         
+        [lblText,lblText2].forEach { $0.font = UIFont.boldSystemFont(ofSize: frame.width/30) }
         
         //Constraints for color buttons
         _ = btnBlue.anchor(top: colorViews.topAnchor, bottom: nil, leading: colorViews.leadingAnchor, trailing: nil,padding: .init(top: 1, left: 1, bottom: 1, right: 0),size: .init(width: 0, height: 0))

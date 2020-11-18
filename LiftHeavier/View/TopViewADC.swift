@@ -16,7 +16,6 @@ class TopViewADC : UIView {
         let lbl = UILabel()
         lbl.text = TOPVIEW_TITLE
         lbl.textColor = UIColor.rgb(red: 0, green: 128, blue: 0)
-        lbl.font = UIFont.boldSystemFont(ofSize: 18)
         return lbl
     }()
     
@@ -28,10 +27,12 @@ class TopViewADC : UIView {
         return btn
     }()
     
-    
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         setLayout()
     }
     
@@ -45,8 +46,9 @@ class TopViewADC : UIView {
         backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         [lblText,addButton].forEach { addSubview($0) }
         
-        _ = addButton.anchor(top: nil, bottom: nil, leading: nil, trailing: trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: 5),size: .init(width: 30, height: 30))
+        _ = addButton.anchor(top: nil, bottom: nil, leading: nil, trailing: trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: 5),size: .init(width: frame.width/12, height: frame.height/1.3))
         
+        lblText.font = UIFont.boldSystemFont(ofSize: frame.width/20)
         lblText.positionInCenterSuperView(centerX: centerXAnchor, centerY: centerYAnchor)
         addButton.positionInCenterSuperView(centerX: nil, centerY: centerYAnchor)
     }

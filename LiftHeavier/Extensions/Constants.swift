@@ -46,8 +46,9 @@ let ALERT_ACTION_YES = "Yes"
 let ALERT_ACTION_NO = "No"
 let ALERT_COMPLETED_TEXT = "Congratulations!\nYou completed the exercise"
 
-//WorkoutStatisticController Constants
+// WorkoutStatisticController Constants
 
 let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 let AVERAGE_ONERM = "Average Of One Rep Max"
 let YOUR_ONERM = "Your One Rep Max is : "
+

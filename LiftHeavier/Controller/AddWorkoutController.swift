@@ -35,7 +35,7 @@ class AddWorkoutController: UIViewController {
     
     fileprivate func setLayout() {
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)
-        extraView.backgroundColor = topView.backgroundColor
+        extraView.backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         navigationController?.navigationBar.isHidden = true
         tableView.backgroundColor = view.backgroundColor
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false

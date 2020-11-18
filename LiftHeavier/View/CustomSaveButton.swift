@@ -12,7 +12,6 @@ class CustomSaveButton : UIButton {
     
     let buttonTitle : UILabel = {
         let txt = UILabel()
-        txt.font = UIFont.boldSystemFont(ofSize: 15)
         txt.text = BUTTON_TEXT
         txt.textColor = .white
         return txt
@@ -30,6 +29,11 @@ class CustomSaveButton : UIButton {
         addSubview(buttonTitle)
         
         buttonTitle.positionInCenterSuperView(centerX: centerXAnchor, centerY: centerYAnchor)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        buttonTitle.font = UIFont.boldSystemFont(ofSize: frame.width/10)
     }
     
     override func draw(_ rect: CGRect) {

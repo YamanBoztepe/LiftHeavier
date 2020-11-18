@@ -84,7 +84,7 @@ class WorkoutBeginController: UIViewController {
         saveButton.isEnabled = false
         collectionView.backgroundColor = .clear
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)
-        extraView.backgroundColor = topView.backgroundColor
+        extraView.backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         tableView.backgroundColor = .clear
         [extraView,topView,customSectionLabel,collectionView,tableView,saveButton].forEach { view.addSubview($0) }
         

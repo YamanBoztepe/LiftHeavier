@@ -14,6 +14,11 @@ class WorkoutStatisticController: UIViewController {
     
     fileprivate let extraView = UIView()
     fileprivate let topView = TopViewWithBackButton()
+    fileprivate let addButton : UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(named: "detailsButton"), for: .normal)
+        return btn
+    }()
     fileprivate let oneRepMaxLbl : UILabel = {
         let lbl = UILabel()
         lbl.textColor = .white
@@ -43,16 +48,20 @@ class WorkoutStatisticController: UIViewController {
     
     fileprivate func setLayout(_ collectionView: UICollectionView) {
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)
-        extraView.backgroundColor = topView.backgroundColor
+        extraView.backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         collectionView.backgroundColor = .clear
-        [extraView,topView,collectionView,barChart,oneRepMaxLbl].forEach { view.addSubview($0) }
+        addButton.isHidden = true
+        [extraView,topView,collectionView,barChart,oneRepMaxLbl,addButton].forEach { view.addSubview($0) }
         
         _ = extraView.anchor(top: view.topAnchor, bottom: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
         _ = topView.anchor(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,size: .init(width: 0, height: view.frame.height/15))
         _ = collectionView.anchor(top: topView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,size: .init(width: 0, height: view.frame.width/7))
         _ = barChart.anchor(top: collectionView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,padding: .init(top: view.frame.height/30, left: view.frame.height/50, bottom: 0, right: view.frame.height/50),size: .init(width: 0, height: view.frame.height/2))
-        _ = oneRepMaxLbl.anchor(top: barChart.bottomAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
+        _ = oneRepMaxLbl.anchor(top: barChart.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,size: .init(width: 0, height: view.frame.height/8))
+        _ = addButton.anchor(top: oneRepMaxLbl.bottomAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: nil, trailing: nil,padding: .init(top: view.frame.height/30, left: 0, bottom: 0, right: 0))
         
+        addButton.positionInCenterSuperView(centerX: view.centerXAnchor, centerY: nil)
+        addButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
         oneRepMaxLbl.font = UIFont.boldSystemFont(ofSize: view.frame.width/20)
         topView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
     }
@@ -104,6 +113,8 @@ class WorkoutStatisticController: UIViewController {
             let currentMonth = "\(uniqueDate)".suffix(2)
             entries.append(BarChartDataEntry(x: Double(currentMonth) ?? 1, y: averageOneRM))
         }
+        barChart.data = nil
+        addButton.isHidden = true
         
         //modify chart view
         if currentDate.count > 0 {
@@ -121,7 +132,10 @@ class WorkoutStatisticController: UIViewController {
             barChart.xAxis.labelTextColor = .white
             barChart.xAxis.valueFormatter = IndexAxisValueFormatter(values: months)
             
+            addButton.isHidden = false
+            
         }
+        
         
     }
     
@@ -143,6 +157,13 @@ class WorkoutStatisticController: UIViewController {
     
     @objc fileprivate func backButtonPressed() {
         navigationController?.popViewController(animated: true)
+    }
+    @objc fileprivate func addButtonPressed() {
+        let vc = MoreDetailsController()
+        vc.selectedExerciseDates = currentExercise!.exerciseDateList
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .flipHorizontal
+        present(vc, animated: true, completion: nil)
     }
     
     fileprivate func getBiggestOneRM() -> Double {

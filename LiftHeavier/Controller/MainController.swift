@@ -56,7 +56,7 @@ class MainController: UIViewController {
     fileprivate func setLayout(collectionView : UICollectionView) {
         
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)
-        extraTopView.backgroundColor = topView.backgroundColor
+        extraTopView.backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         extraBottomView.backgroundColor = bottomView.backgroundColor
         collectionView.backgroundColor = UIColor.rgb(red: 46, green: 46, blue: 46)
         
@@ -70,6 +70,7 @@ class MainController: UIViewController {
         
         topView.addButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
         topView.editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+        topView.runningViewButton.addTarget(self, action: #selector(runningButtonPressed), for: .touchUpInside)
         bottomView.statisticsViewButton.addTarget(self, action: #selector(statisticButtonPressed), for: .touchUpInside)
         
     }
@@ -125,7 +126,6 @@ class MainController: UIViewController {
         
         if containerCell.subviews.count > 1 {
             containerCell.subviews.first?.removeFromSuperview()
-        
         }
         return containerCell
     }
@@ -179,6 +179,11 @@ class MainController: UIViewController {
     
     @objc fileprivate func statisticButtonPressed() {
         let vc = StatisticsController()
+        navigationController?.pushViewController(vc, animated: false)
+    }
+    @objc fileprivate func runningButtonPressed() {
+        let vc = RunningController()
+        navigationController?.view.layer.add(CATransition().fromRightToLeft(), forKey: nil)
         navigationController?.pushViewController(vc, animated: false)
     }
 }

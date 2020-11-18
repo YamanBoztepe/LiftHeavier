@@ -15,7 +15,6 @@ class AddWorkoutCell: UITableViewCell {
     let txtExerciseName : UILabel = {
         let lbl = UILabel()
         lbl.text = EXERCISE_NAME
-        lbl.font = UIFont.boldSystemFont(ofSize: 12)
         lbl.textColor = .white
         return lbl
     }()
@@ -23,7 +22,6 @@ class AddWorkoutCell: UITableViewCell {
     let txtSetsOfExercise : UILabel = {
         let lbl = UILabel()
         lbl.text = SET_NUMBERS
-        lbl.font = UIFont.boldSystemFont(ofSize: 12)
         lbl.textColor = .white
         return lbl
     }()
@@ -89,7 +87,7 @@ class AddWorkoutCell: UITableViewCell {
         
         _ = txtSetField.anchor(top: nil, bottom: nil, leading: txtSetsOfExercise.trailingAnchor, trailing: bottomStackView.trailingAnchor)
         
-         
+        [txtExerciseName,txtSetsOfExercise].forEach { $0.font = UIFont.boldSystemFont(ofSize: frame.width/35) }
     }
     
  

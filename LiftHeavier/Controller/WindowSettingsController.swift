@@ -71,7 +71,7 @@ class WindowSettingsController: UIViewController {
     fileprivate func setLayout() {
         
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)
-        extraView.backgroundColor = topView.backgroundColor
+        extraView.backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         collectionView.backgroundColor = .clear
         nextButton.buttonTitle.text = WINDOWBUTTON_TEXT
         nextButton.isEnabled = false
@@ -188,7 +188,9 @@ extension WindowSettingsController : UICollectionViewDataSource {
         containerCell.setShadow(opacity: 1, radius: 10, offSet: .init(width: 5, height: 10), color: .black)
         containerCell.addSubview(cell)
         _ = cell.anchor(top: containerCell.topAnchor, bottom: containerCell.bottomAnchor, leading: containerCell.leadingAnchor, trailing: containerCell.trailingAnchor)
-         
+        if containerCell.subviews.count > 1 {
+            containerCell.subviews.first?.removeFromSuperview()
+        }
         
         return containerCell
     }

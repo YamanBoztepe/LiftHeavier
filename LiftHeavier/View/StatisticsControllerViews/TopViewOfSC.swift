@@ -15,13 +15,16 @@ class TopViewOfSC: UIView {
         let lbl = UILabel()
         lbl.text = TOPVIEW_TITLE
         lbl.textColor = UIColor.rgb(red: 0, green: 128, blue: 0)
-        lbl.font = UIFont.boldSystemFont(ofSize: 18)
         return lbl
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        lblText.font = UIFont.boldSystemFont(ofSize: frame.width/20)
     }
     
     fileprivate func setLayout() {

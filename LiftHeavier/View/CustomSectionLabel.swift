@@ -13,13 +13,16 @@ class CustomSectionLabel : UIView {
     var sectionName : UILabel = {
        let lbl = UILabel()
         lbl.textColor = .white
-        lbl.font = UIFont.boldSystemFont(ofSize: 15)
         return lbl
     }()
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         setLayout()
     }
     
@@ -52,6 +55,7 @@ class CustomSectionLabel : UIView {
     fileprivate func setLayout() {
         addSubview(sectionName)
         _ = sectionName.anchor(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: nil,padding: .init(top: 0, left: 10, bottom: 0, right: 0))
+        sectionName.font = UIFont.boldSystemFont(ofSize: frame.width/25)
     }
     
     required init?(coder: NSCoder) {
