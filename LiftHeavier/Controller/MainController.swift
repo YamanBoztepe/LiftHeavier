@@ -52,7 +52,6 @@ class MainController: UIViewController {
         
     }
     
-    
     fileprivate func setLayout(collectionView : UICollectionView) {
         
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)

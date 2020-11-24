@@ -49,6 +49,9 @@
 		1CC7F45A2564631100AE19EE /* TopViewOfRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC7F4592564631000AE19EE /* TopViewOfRC.swift */; };
 		1CC7F45E2565735B00AE19EE /* MoreDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC7F45D2565735B00AE19EE /* MoreDetailsController.swift */; };
 		1CC7F4632565B4F700AE19EE /* WorkoutInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC7F4622565B4F700AE19EE /* WorkoutInfoCell.swift */; };
+		1CC7F46A2566F5A300AE19EE /* WeatherApiDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC7F4692566F5A300AE19EE /* WeatherApiDownload.swift */; };
+		1CC7F46E2566FAE800AE19EE /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC7F46D2566FAE800AE19EE /* WeatherModel.swift */; };
+		1CD9C3CF256BD9F8004FF88C /* CustomAnimationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD9C3CE256BD9F8004FF88C /* CustomAnimationButton.swift */; };
 		6CA63E3D97EA2F1DDEF5BD67 /* Pods_LiftHeavier.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F888B9492897874F3C75C1 /* Pods_LiftHeavier.framework */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +101,9 @@
 		1CC7F4592564631000AE19EE /* TopViewOfRC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewOfRC.swift; sourceTree = "<group>"; };
 		1CC7F45D2565735B00AE19EE /* MoreDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreDetailsController.swift; sourceTree = "<group>"; };
 		1CC7F4622565B4F700AE19EE /* WorkoutInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutInfoCell.swift; sourceTree = "<group>"; };
+		1CC7F4692566F5A300AE19EE /* WeatherApiDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApiDownload.swift; sourceTree = "<group>"; };
+		1CC7F46D2566FAE800AE19EE /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
+		1CD9C3CE256BD9F8004FF88C /* CustomAnimationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationButton.swift; sourceTree = "<group>"; };
 		41BFCC5644367AEC331641C1 /* Pods-LiftHeavier.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiftHeavier.release.xcconfig"; path = "Target Support Files/Pods-LiftHeavier/Pods-LiftHeavier.release.xcconfig"; sourceTree = "<group>"; };
 		94FD41F7DA449A5451DA02CF /* Pods-LiftHeavier.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LiftHeavier.debug.xcconfig"; path = "Target Support Files/Pods-LiftHeavier/Pods-LiftHeavier.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -147,6 +153,7 @@
 			children = (
 				1CBF90622544468900E9123B /* Extensions */,
 				1CBF90612544468500E9123B /* Model */,
+				1CC7F4682566F50200AE19EE /* NetworkModels */,
 				1CBF90602544468100E9123B /* View */,
 				1CBF905F2544467B00E9123B /* Controller */,
 				1CBF904B2544458C00E9123B /* AppDelegate.swift */,
@@ -190,6 +197,7 @@
 				1CBF907B2544472900E9123B /* WorkoutCell.swift */,
 				1CBF90752544471E00E9123B /* CustomSaveButton.swift */,
 				1CBF90732544471D00E9123B /* CustomSectionLabel.swift */,
+				1CD9C3CE256BD9F8004FF88C /* CustomAnimationButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -197,12 +205,7 @@
 		1CBF90612544468500E9123B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				1CBF9069254446F900E9123B /* WindowSettingsModel.swift */,
-				1CBF906A254446FA00E9123B /* ExerciseInfoModel.swift */,
-				1CBF909E254DE88A00E9123B /* ExerciseDate.swift */,
-				1CBF909C254CA2E700E9123B /* ExerciseDetails.swift */,
-				1CBF90A0254E16B800E9123B /* CurrentExerciseDetails.swift */,
-				1C9BEF4C25545FDA00A1E9BD /* CompletedExercises.swift */,
+				1CC7F4652566F4EE00AE19EE /* DatabaseModels */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -276,6 +279,28 @@
 				1CC7F4622565B4F700AE19EE /* WorkoutInfoCell.swift */,
 			);
 			path = MoreDetailsControllerViews;
+			sourceTree = "<group>";
+		};
+		1CC7F4652566F4EE00AE19EE /* DatabaseModels */ = {
+			isa = PBXGroup;
+			children = (
+				1CBF9069254446F900E9123B /* WindowSettingsModel.swift */,
+				1CBF906A254446FA00E9123B /* ExerciseInfoModel.swift */,
+				1CBF909E254DE88A00E9123B /* ExerciseDate.swift */,
+				1CBF909C254CA2E700E9123B /* ExerciseDetails.swift */,
+				1CBF90A0254E16B800E9123B /* CurrentExerciseDetails.swift */,
+				1C9BEF4C25545FDA00A1E9BD /* CompletedExercises.swift */,
+			);
+			path = DatabaseModels;
+			sourceTree = "<group>";
+		};
+		1CC7F4682566F50200AE19EE /* NetworkModels */ = {
+			isa = PBXGroup;
+			children = (
+				1CC7F4692566F5A300AE19EE /* WeatherApiDownload.swift */,
+				1CC7F46D2566FAE800AE19EE /* WeatherModel.swift */,
+			);
+			path = NetworkModels;
 			sourceTree = "<group>";
 		};
 		B57EEB052D803DCA35E2F828 /* Frameworks */ = {
@@ -425,6 +450,7 @@
 				1CBF906F2544470C00E9123B /* BottomViewOfMainScreen.swift in Sources */,
 				1CBF908B254461FF00E9123B /* TopViewADC.swift in Sources */,
 				1CBF906B254446FA00E9123B /* WindowSettingsModel.swift in Sources */,
+				1CD9C3CF256BD9F8004FF88C /* CustomAnimationButton.swift in Sources */,
 				1CBF90702544470C00E9123B /* TopViewOfMainScreen.swift in Sources */,
 				1CBF907D2544472A00E9123B /* WorkoutCell.swift in Sources */,
 				1C9BEF4D25545FDA00A1E9BD /* CompletedExercises.swift in Sources */,
@@ -432,6 +458,7 @@
 				1CBF90812544474100E9123B /* MainController.swift in Sources */,
 				1CBF904C2544458C00E9123B /* AppDelegate.swift in Sources */,
 				1C3BDC4825576A42005575A3 /* WindowTableCell.swift in Sources */,
+				1CC7F46E2566FAE800AE19EE /* WeatherModel.swift in Sources */,
 				1C3BDC412557617F005575A3 /* BottomViewOfSC.swift in Sources */,
 				1CBF909B25487BA000E9123B /* SetCell.swift in Sources */,
 				1CBF909F254DE88A00E9123B /* ExerciseDate.swift in Sources */,
@@ -439,6 +466,7 @@
 				1CC7F453256439B000AE19EE /* RunningController.swift in Sources */,
 				1CBF90792544471E00E9123B /* AddWorkoutCell.swift in Sources */,
 				1CBF907A2544471E00E9123B /* CustomSaveButton.swift in Sources */,
+				1CC7F46A2566F5A300AE19EE /* WeatherApiDownload.swift in Sources */,
 				1CBF90922544A18C00E9123B /* Extensions+UIColor.swift in Sources */,
 				1C9BEF502555E49B00A1E9BD /* Extensions+UIAlertController.swift in Sources */,
 				1C58037525588236003779B8 /* WorkoutStatisticController.swift in Sources */,

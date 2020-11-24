@@ -111,7 +111,7 @@ class WorkoutStatisticController: UIViewController {
             print("Final OneRM : ",oneRM,"--- End ---- Counter : ",oneRmCounter)
             let averageOneRM = oneRM / (Double(oneRmCounter) * Double(sets))
             let currentMonth = "\(uniqueDate)".suffix(2)
-            entries.append(BarChartDataEntry(x: Double(currentMonth) ?? 1, y: averageOneRM))
+            entries.append(BarChartDataEntry(x: Double(currentMonth) ?? 1, y: Double(String(format: "%.2f",averageOneRM)) ?? 1))
         }
         barChart.data = nil
         addButton.isHidden = true
@@ -121,6 +121,7 @@ class WorkoutStatisticController: UIViewController {
             let set = BarChartDataSet(entries: entries)
             set.colors = ChartColorTemplates.material()
             set.valueColors = [UIColor.white]
+            set.valueFont = UIFont.boldSystemFont(ofSize: view.frame.width/30)
             let data = BarChartData(dataSet: set)
             barChart.data = data
             

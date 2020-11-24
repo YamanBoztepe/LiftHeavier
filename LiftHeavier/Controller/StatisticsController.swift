@@ -42,6 +42,7 @@ class StatisticsController: UIViewController {
         extraTopView.backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         extraBottomView.backgroundColor = bottomView.backgroundColor
         tableView.backgroundColor = view.backgroundColor
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         [extraTopView,topView,tableView,bottomView,extraBottomView].forEach { view.addSubview($0) }
         
@@ -103,7 +104,7 @@ extension StatisticsController : UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.frame.height / 10
+        return view.frame.height / 8
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -112,4 +113,5 @@ extension StatisticsController : UITableViewDelegate,UITableViewDataSource {
         vc.windowSettingsList = selectedWindow
         navigationController?.pushViewController(vc, animated: true)
     }
+    
 }

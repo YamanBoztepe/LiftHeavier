@@ -16,10 +16,11 @@ class MoreDetailsController: UIViewController {
     fileprivate let tableView = UITableView()
     
     var selectedExerciseDates = List<ExerciseDate>()
-
+    var sortedExerciseDates : Results<ExerciseDate>!
     override func viewDidLoad() {
         super.viewDidLoad()
         print(selectedExerciseDates)
+        sortedExerciseDates = selectedExerciseDates.sorted(byKeyPath: "date", ascending: false)
         setLayout()
         setTableView()
     }
@@ -40,6 +41,7 @@ class MoreDetailsController: UIViewController {
     fileprivate func setTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .none
         tableView.register(WorkoutInfoCell.self, forCellReuseIdentifier: WorkoutInfoCell.IDENTIFIER)
     }
     
@@ -51,13 +53,13 @@ class MoreDetailsController: UIViewController {
 
 extension MoreDetailsController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectedExerciseDates[section].exerciseDetails.count
+        return sortedExerciseDates[section].exerciseDetails.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WorkoutInfoCell.IDENTIFIER, for: indexPath) as? WorkoutInfoCell else { return WorkoutInfoCell() }
         
-        let exerciseDetail = selectedExerciseDates[indexPath.section].exerciseDetails[indexPath.row]
+        let exerciseDetail = sortedExerciseDates[indexPath.section].exerciseDetails[indexPath.row]
         
         cell.numberOfSet = exerciseDetail.numberOfSet
         cell.liftedWeight = exerciseDetail.liftedWeight
@@ -71,14 +73,14 @@ extension MoreDetailsController: UITableViewDelegate,UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return selectedExerciseDates.count
+        return sortedExerciseDates.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let contentView = UIView()
         let lblTitle : UILabel = {
             let lbl = UILabel()
-            lbl.text = String(selectedExerciseDates[section].date.prefix(10))
+            lbl.text = String(sortedExerciseDates[section].date.prefix(10))
             lbl.textColor = .white
             lbl.textAlignment = .center
             lbl.backgroundColor = .clear

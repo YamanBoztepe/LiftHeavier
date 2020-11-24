@@ -50,5 +50,11 @@ let ALERT_COMPLETED_TEXT = "Congratulations!\nYou completed the exercise"
 
 let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 let AVERAGE_ONERM = "Average Of One Rep Max"
-let YOUR_ONERM = "Your One Rep Max is : "
+let YOUR_ONERM = "Your One Rep Max : "
 
+// RunningController Constants
+
+let WEATHER_TEMP = "Current weather temperature is\n"
+let WEATHER_HUMIDITY = " and Humidity is "
+let CARDIO_QUESTION = "\n\nDo you want to start cardio?"
+let START_BUTTON = "Start"

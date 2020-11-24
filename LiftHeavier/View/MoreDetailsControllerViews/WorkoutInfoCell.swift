@@ -74,13 +74,12 @@ class WorkoutInfoCell: UITableViewCell {
         selectionStyle = .none
         layer.borderWidth = 1
         layer.borderColor = UIColor.gray.cgColor
+        
         [lblLiftedWeight,lblReps].forEach { weightAndRepsSV.addArrangedSubview($0) }
         [lblSet,weightAndRepsSV].forEach { addSubview($0) }
         _ = lblSet.anchor(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: nil,size: .init(width: frame.width/3, height: 0))
         _ = weightAndRepsSV.anchor(top: topAnchor, bottom: bottomAnchor, leading: lblSet.trailingAnchor, trailing: trailingAnchor)
-       /* _ = lblLiftedWeight.anchor(top: topAnchor, bottom: nil, leading: lblSet.trailingAnchor, trailing: trailingAnchor,size: .init(width: 0, height: 0))
-        _ = lblReps.anchor(top: lblLiftedWeight.bottomAnchor, bottom: bottomAnchor, leading: lblSet.trailingAnchor, trailing: trailingAnchor,size: .init(width: 0, height: 0))
-        */
+      
         [lblSet,lblLiftedWeight,lblReps].forEach { $0.font = UIFont.systemFont(ofSize: frame.width/15) }
         
     }
