@@ -68,7 +68,7 @@ class WorkoutBeginController: UIViewController {
         setTableView()
         setLayout()
         setTargetToButtons()
-        view.keyboardShowObserverForWBC()
+        view.keyboardShowObserver()
         deleteCompletedExercises()
     }
 

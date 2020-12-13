@@ -21,7 +21,7 @@ class WeatherApiDownload {
         var results: Response?
         let task = URLSession.shared.dataTask(with: apiURL) { (data, _, error) in
             if let error = error {
-                print(error.localizedDescription)
+                print(error)
                 return
             }
             guard let apiData = data else { return }
@@ -29,7 +29,7 @@ class WeatherApiDownload {
             do {
                 results = try JSONDecoder().decode(Response.self, from: apiData)
             } catch {
-                print("Failed when fetching Json: \(error.localizedDescription)")
+                print("Failed when fetching Json: \(error)")
                 return
             }
         }

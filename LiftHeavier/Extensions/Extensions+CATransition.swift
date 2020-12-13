@@ -26,4 +26,19 @@ extension CATransition {
         return self
     }
     
+    func fromBottomToTop() -> CATransition{
+        duration = 0.3
+        timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        type = .push
+        subtype = .fromTop
+        return self
+    }
+    
+    func fromTopToBottom() -> CATransition {
+        duration = 0.3
+        timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        type = .push
+        subtype = .fromBottom
+        return self
+    }
 }

@@ -23,6 +23,9 @@ extension UIColor {
     static func rgb(red : CGFloat, green : CGFloat, blue : CGFloat) -> UIColor {
         return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
     }
+    static func rgb(red : CGFloat, green : CGFloat, blue : CGFloat,alpha : CGFloat) -> UIColor {
+        return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: alpha)
+    }
 }
 
 extension UIView {
@@ -126,7 +129,7 @@ extension UIView {
         
     }
     
-    func keyboardShowObserverForWBC() {
+    func keyboardShowObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(buttonChange(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     

@@ -39,7 +39,6 @@ class WorkoutCell: UICollectionViewCell {
         [lblName,deleteIcon].forEach { addSubview($0) }
         setGradientLayer()
         clipsToBounds = true
-        setShadow(opacity: 1, radius: 10, offSet: .init(width: 0, height: 10), color: .red)
         
         _ = lblName.anchor(top: nil, bottom: bottomAnchor, leading: leadingAnchor, trailing: nil,padding: .init(top: 0, left: 7, bottom: 7, right: 0),size: .init(width: frame.width-5, height: 0))
         _ = deleteIcon.anchor(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: nil,padding: .init(top: 5, left: 5, bottom: 0, right: 0))
