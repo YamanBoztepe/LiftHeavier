@@ -12,10 +12,10 @@ import RealmSwift
 class RunningDetailsController: UIViewController {
     
     fileprivate let extraView = UIView()
-    fileprivate let topView = TopViewCancelButton()
+    let topView = TopViewCancelButton()
     
-    fileprivate let tableView = UITableView()
-    fileprivate let continueButton = CustomSaveButton()
+    let tableView = UITableView()
+    let continueButton = CustomSaveButton()
     
     fileprivate let realm = try! Realm()
     fileprivate var runningSummaryList: Results<RunningSummayModel>?
@@ -32,7 +32,7 @@ class RunningDetailsController: UIViewController {
         setLayout()
     }
     
-    fileprivate func setLayout() {
+    func setLayout() {
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)
         extraView.backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         tableView.backgroundColor = .clear
@@ -59,13 +59,9 @@ class RunningDetailsController: UIViewController {
     }
     
     
-    @objc fileprivate func continueButtonPressed() {
+    @objc func continueButtonPressed() {
         navigationController?.view.layer.add(CATransition().fromLeftToRight(), forKey: nil)
         navigationController?.popToRootViewController(animated: false)
-    }
-    @objc fileprivate func personalDetailPressed() {
-        let vc = PersonalDetailsController()
-        navigationController?.pushViewController(vc, animated: false)
     }
 
 }

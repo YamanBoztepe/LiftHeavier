@@ -91,6 +91,7 @@ class RunningController: UIViewController {
         lblWeatherInfo.font = UIFont.boldSystemFont(ofSize: view.frame.width/15)
         topView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         topView.personalDetailButton.addTarget(self, action: #selector(personalDetailButtonPressed), for: .touchUpInside)
+        topView.runningDetailButton.addTarget(self, action: #selector(runningDetailsButtonPressed), for: .touchUpInside)
         
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(startButtonPressed))
         let longGesture2 = UILongPressGestureRecognizer(target: self, action: #selector(extraButtonPressed))
@@ -210,6 +211,11 @@ class RunningController: UIViewController {
     @objc fileprivate func personalDetailButtonPressed() {
         let vc = UpdateDetailsController()
         navigationController?.view.layer.add(CATransition().fromRightToLeft(), forKey: nil)
+        navigationController?.pushViewController(vc, animated: false)
+    }
+    @objc fileprivate func runningDetailsButtonPressed() {
+        let vc = ShowDetailsController()
+        navigationController?.view.layer.add(CATransition().fromBottomToTop(), forKey: nil)
         navigationController?.pushViewController(vc, animated: false)
     }
     @objc fileprivate func startStopWatch() {
