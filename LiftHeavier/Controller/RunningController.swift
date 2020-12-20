@@ -20,7 +20,6 @@ class RunningController: UIViewController {
     var url = "https://api.openweathermap.org/data/2.5/weather"
     var weatherData: WeatherModel? {
         didSet {
-            hud.dismiss()
             setWeatherText()
         }
     }
@@ -50,8 +49,8 @@ class RunningController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setLayout()
         getUserCoordinate()
+        setLayout()
     }
     
     override func viewDidLayoutSubviews() {
@@ -59,7 +58,9 @@ class RunningController: UIViewController {
         setPulsingView()
         
     }
+    
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         setPulsingView()
     }
     
@@ -100,13 +101,26 @@ class RunningController: UIViewController {
     }
     
     fileprivate func setWeatherText() {
-        guard let weatherInfo = weatherData else { return }
+        
+        let tempMutableAttrText = NSMutableAttributedString(string: WEATHER_TEMP, attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
+        
+        let questionForStart = NSAttributedString(string: CARDIO_QUESTION, attributes: [NSAttributedString.Key.foregroundColor : UIColor.rgb(red: 0, green: 128, blue: 0)])
+        
+        guard let weatherInfo = weatherData else {
+            tempMutableAttrText.setAttributedString(NSAttributedString(string: ""))
+            tempMutableAttrText.append(questionForStart)
+            lblWeatherInfo.attributedText = tempMutableAttrText
+            startButton.isEnabled = true
+            extraButtonView.isEnabled = true
+            
+            hud.dismiss()
+            return
+        }
         let temp = Int(weatherInfo.temp - 273.15)
         let humidity = weatherInfo.humidity
         
         var tempAttrText = NSAttributedString()
         
-        let tempMutableAttrText = NSMutableAttributedString(string: WEATHER_TEMP, attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
         if temp > 23 {
             tempAttrText = NSAttributedString(string: "\(temp) °C", attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
         } else {
@@ -116,12 +130,12 @@ class RunningController: UIViewController {
         let humidtyMainAttrText = NSAttributedString(string: WEATHER_HUMIDITY,attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
         let humidtyAttrText = NSAttributedString(string: "\(humidity)%", attributes: [NSAttributedString.Key.foregroundColor : UIColor.yellow])
         
-        let questionForStart = NSAttributedString(string: CARDIO_QUESTION, attributes: [NSAttributedString.Key.foregroundColor : UIColor.rgb(red: 0, green: 128, blue: 0)])
-        
         [tempAttrText,humidtyMainAttrText,humidtyAttrText,questionForStart].forEach { tempMutableAttrText.append($0) }
         lblWeatherInfo.attributedText = tempMutableAttrText
         startButton.isEnabled = true
         extraButtonView.isEnabled = true
+        
+        hud.dismiss()
     }
     
     fileprivate func setPulsingView() {
@@ -139,20 +153,17 @@ class RunningController: UIViewController {
         pulsingView.layer.add(animation, forKey: "pulsinAnimation")
     }
    
-    fileprivate func popViewControllerWithAnimation() {
+    fileprivate func popToRootViewControllerWithAnimation() {
         navigationController?.view.layer.add(CATransition().fromLeftToRight(), forKey: nil)
-        navigationController?.popViewController(animated: false)
+        navigationController?.popToRootViewController(animated: false)
     }
     
     fileprivate func getUserCoordinate() {
         
-        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
-            self.locationManager.requestWhenInUseAuthorization()
-        }
         if CLLocationManager.authorizationStatus() == .denied {
             let alert = UIAlertController(title: ERROR_ALERT_TITLE, message: ERROR_ALERT_DESCRIPTION, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: ERROR_ALERT_CANCEL, style: .cancel, handler: { (_) in
-                self.popViewControllerWithAnimation()
+                self.popToRootViewControllerWithAnimation()
             }))
             alert.addAction(UIAlertAction(title: ERROR_ALERT_SETTINGS, style: .default, handler: { (_) in
                 let settingsURL = URL(string: UIApplication.openSettingsURLString)
@@ -184,7 +195,7 @@ class RunningController: UIViewController {
         }
     }
     @objc fileprivate func backButtonPressed() {
-        popViewControllerWithAnimation()
+        popToRootViewControllerWithAnimation()
     }
     @objc fileprivate func startButtonPressed(sender: UIGestureRecognizer) {
         runningButtonActive(sender: sender)

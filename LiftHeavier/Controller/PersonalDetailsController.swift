@@ -8,8 +8,11 @@
 
 import UIKit
 import RealmSwift
+import CoreLocation
 
 class PersonalDetailsController: UIViewController {
+    
+    let locationManager = CLLocationManager()
     
     let extraView = UIView()
     let topView = TopViewOfRC()
@@ -41,6 +44,10 @@ class PersonalDetailsController: UIViewController {
         
         if realm.objects(PersonalDetails.self).first != nil {
             navigationController?.popViewController(animated: true)
+        }
+        
+        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
+            self.locationManager.requestWhenInUseAuthorization()
         }
     }
     
@@ -191,8 +198,10 @@ class PersonalDetailsController: UIViewController {
             
             PersonalDetails.addPersonalDetails(isMale: isMale, age: age, height: height, weight: weight)
         }
+        
         let vc = RunningController()
         navigationController?.pushViewController(vc, animated: false)
+        
     }
     
 }

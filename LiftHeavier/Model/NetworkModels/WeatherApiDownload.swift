@@ -15,34 +15,36 @@ class WeatherApiDownload {
         self.url = url
     }
     
-    func jsonDownload() -> WeatherModel {
-        guard let url = url,let apiURL = URL(string: url) else { return WeatherModel(temp: -111, humidity: -111) }
+    func jsonDownload() -> WeatherModel? {
+        guard let url = url,let apiURL = URL(string: url) else { return nil }
         
         var results: Response?
-        let task = URLSession.shared.dataTask(with: apiURL) { (data, _, error) in
+        let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
+        
+        let task = URLSession.shared.dataTask(with: apiURL) { (data, response, error) in
             if let error = error {
                 print(error)
+                semaphore.signal()
                 return
             }
-            guard let apiData = data else { return }
+            
+            guard let apiData = data else { semaphore.signal();return }
             
             do {
                 results = try JSONDecoder().decode(Response.self, from: apiData)
             } catch {
                 print("Failed when fetching Json: \(error)")
+                semaphore.signal()
                 return
             }
+            semaphore.signal()
+            
+            
         }
         task.resume()
         
-        
-        while 0 < 1 {
-            if results != nil {
-                return results!.main
-            } else {
-                continue
-            }
-        }
+        semaphore.wait()
+        return results?.main
         
         
     }
