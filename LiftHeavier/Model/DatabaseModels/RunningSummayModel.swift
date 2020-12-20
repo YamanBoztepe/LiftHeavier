@@ -17,6 +17,7 @@ class RunningSummayModel : Object {
     @objc dynamic var distance = 0.0
     @objc dynamic var duration = 0
     @objc dynamic var calories = 0
+    dynamic var locations = List<LocationDetails>()
     
     override static func primaryKey() -> String? {
         return "id"
@@ -26,7 +27,7 @@ class RunningSummayModel : Object {
         return ["date","avgPace","duration"]
     }
     
-    convenience init(avgPace: Int, duration: Int, distance: Double) {
+    convenience init(avgPace: Int, duration: Int, distance: Double,calories: Int,locations: List<LocationDetails>) {
         
         self.init()
         self.id = UUID().uuidString.lowercased()
@@ -34,11 +35,13 @@ class RunningSummayModel : Object {
         self.distance = distance
         self.duration = duration
         self.avgPace = avgPace
+        self.calories = calories
+        self.locations = locations
     }
     
-    static func addRunningSummary(duration: Int, distance: Double, avgPace: Int) {
+    static func addRunningSummary(duration: Int, distance: Double, avgPace: Int,calories: Int,locations: List<LocationDetails>) {
         
-        let currentSummary = RunningSummayModel(avgPace: avgPace, duration: duration, distance: distance)
+        let currentSummary = RunningSummayModel(avgPace: avgPace, duration: duration, distance: distance, calories: calories,locations: locations)
         
         do {
             let realm = try Realm()

@@ -101,16 +101,11 @@ class RunningSummaryCell: UITableViewCell {
     func setData(pace: Int, distance: Double, duration: Int,date: NSDate,calories: Int) {
         
         lblAveragePace.text = "\(pace.translateSecondToDuration())"
-        lblDuration.text = "\(duration.translateSecondToDuration()) min"
-        lblDistance.text = "\(String(format: "%.3f", distance/1609.344)) mil"
+        lblDuration.text = "\(duration.translateSecondToDuration()) \(SMALL_MIN)"
+        lblDistance.text = "\(String(format: "%.3f", distance/1609.344)) \(SMALL_MIL)"
         lblDate.text = date.getDate()
+        lblCalories.text = "\(calories) \(SMALL_CAL)"
         
-        if calories == 0 {
-            lblCalories.isHidden = true
-        } else {
-            lblCalories.isHidden = false
-            lblCalories.text = "\(calories) cal"
-        }
     }
     
     required init?(coder: NSCoder) {

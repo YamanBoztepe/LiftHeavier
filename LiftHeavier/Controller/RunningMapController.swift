@@ -11,6 +11,11 @@ import MapKit
 import RealmSwift
 
 class RunningMapController: UIViewController {
+    
+    fileprivate let realm = try! Realm()
+    var userLocations = List<LocationDetails>()
+    fileprivate var calories = 0
+    fileprivate var bmr = 0.0
 
     fileprivate let extraView = UIView()
     fileprivate let topView = TopViewDownButton()
@@ -45,6 +50,7 @@ class RunningMapController: UIViewController {
         setLayout()
         centerLocationMapView()
         mapView.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,19 +103,9 @@ class RunningMapController: UIViewController {
         locationManager.distanceFilter = 5
     }
     
-    
-    fileprivate func calculateAvgOfPace(pace: Int) {
-        paces.append(pace)
-        let totalOfPaces = paces.reduce(0) { total,value -> Int in
-            return total + value
-        }
-        avgOfPaces = totalOfPaces / paces.count
-        runningSummary.avgOfPace = avgOfPaces.translateSecondToDuration()
-    }
-    
     fileprivate func finishTheRun() {
         locationManager.stopUpdatingLocation()
-        RunningSummayModel.addRunningSummary(duration: counter, distance: runningDistance, avgPace: avgOfPaces)
+        RunningSummayModel.addRunningSummary(duration: counter, distance: runningDistance, avgPace: avgOfPaces, calories: calories, locations: userLocations)
         let vc = RunningDetailsController()
         navigationController?.view.layer.add(CATransition().fromBottomToTop(), forKey: nil)
         navigationController?.pushViewController(vc, animated: false)
@@ -122,6 +118,63 @@ class RunningMapController: UIViewController {
         return pace.translateSecondToDuration()
     }
     
+    fileprivate func calculateAvgOfPace(pace: Int) {
+        paces.append(pace)
+        let totalOfPaces = paces.reduce(0) { total,value -> Int in
+            return total + value
+        }
+        avgOfPaces = totalOfPaces / paces.count
+    }
+    
+    fileprivate func calculateCalories(pace: Int, duration: Int) -> Int {
+        guard let personalDetail = realm.objects(PersonalDetails.self).first else { return -1 }
+        
+        if personalDetail.isMale {
+            bmr = 10 * personalDetail.weight + 6.25 * personalDetail.height - 5 * Double(personalDetail.age) - 161
+            
+        } else {
+            bmr = 10 * personalDetail.weight + 6.25 * personalDetail.height - 5 * Double(personalDetail.age) + 5
+        }
+        
+        let mph = 60/(pace.translateIntToSecond())
+        let metValue = getMetValue(mph: round(mph))
+        
+        
+        calories = Int(((bmr/24) * metValue) * (duration.translateIntToSecond())/60)
+        return calories
+    }
+    
+    fileprivate func getMetValue(mph: Double) -> Double {
+        var metValue = 0.0
+        switch mph {
+        case 4:
+            metValue = 6
+        case 5:
+            metValue = 8.3
+        case 6:
+            metValue = 9.8
+        case 7:
+            metValue = 11
+        case 8:
+            metValue = 11.8
+        case 9:
+            metValue = 12.8
+        case 10:
+            metValue = 14.5
+        case 11:
+            metValue = 16
+        case 12:
+            metValue = 19
+        case 13:
+            metValue = 19.8
+        case 14:
+            metValue = 23
+        default:
+            metValue = 13
+        }
+        return metValue
+    }
+    
     fileprivate func startTimer() {
         runningSummary.lblDuration.text = counter.translateSecondToDuration()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
@@ -131,6 +184,24 @@ class RunningMapController: UIViewController {
         
         guard let lastRunData = RunningSummayModel.fetchRunningSummaries()?.first else { return }
         lastRun.setData(averagePace: lastRunData.avgPace, distance: lastRunData.distance, duration: lastRunData.duration)
+    }
+    
+    fileprivate func drawPolyline(currentLocations: List<LocationDetails>) {
+        
+        var userCoordinates = [CLLocationCoordinate2D]()
+        
+        if currentLocations.count > 1 {
+            for location in currentLocations {
+                userCoordinates.append(CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+                if userCoordinates.count == 2 {
+                    break
+                }
+            }
+        }
+        
+        let polyline = MKPolyline(coordinates: userCoordinates, count: userCoordinates.count)
+        
+        mapView.addOverlay(polyline)
     }
     
     @objc fileprivate func updateCounter() {
@@ -176,6 +247,25 @@ class RunningMapController: UIViewController {
 
 extension RunningMapController: CLLocationManagerDelegate {
     
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        let polyline = overlay as! MKPolyline
+        let renderer = MKPolylineRenderer(polyline: polyline)
+        if counter > 0 && runningDistance > 0 {
+            if pace.translateIntToSecond() < 4 {
+                renderer.strokeColor = .red
+            } else if pace.translateIntToSecond() > 4 && pace.translateIntToSecond() < 6 {
+                renderer.strokeColor = .yellow
+            } else {
+                renderer.strokeColor = UIColor.rgb(red: 0, green: 128, blue: 0)
+            }
+        } else {
+            renderer.strokeColor = UIColor.rgb(red: 0, green: 128, blue: 0)
+        }
+        renderer.lineWidth = 5
+        return renderer
+    }
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
         if status == .authorizedWhenInUse {
@@ -189,10 +279,16 @@ extension RunningMapController: CLLocationManagerDelegate {
             firstLocation = locations.first
         } else if let location = locations.last {
             runningDistance += lastLocation.distance(from: location)
+            
+            let newLocation = LocationDetails(latitude: Double(lastLocation.coordinate.latitude), longitude: Double(lastLocation.coordinate.longitude))
+            self.userLocations.insert(newLocation, at: 0)
+            drawPolyline(currentLocations: userLocations)
+            
             runningSummary.distance = runningDistance/1609.344
             
             if counter > 0 && runningDistance > 0 {
                 runningSummary.pace = calculatePace(time: counter, distance: runningDistance/1609.344)
+                runningSummary.calories = calculateCalories(pace: pace, duration: counter)
             }
         }
         

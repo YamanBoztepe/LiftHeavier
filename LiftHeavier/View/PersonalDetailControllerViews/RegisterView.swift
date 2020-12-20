@@ -190,6 +190,7 @@ class RegisterView: UIView {
     }()
     
     
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         setLayout()
@@ -222,6 +223,6 @@ class RegisterView: UIView {
         
         [maleButton,femaleButton,cmButton,ftButton,kgButton,lbsButton].forEach { $0.layer.cornerRadius = frame.width/30;$0.clipsToBounds = true }
         
-        [heightTextField,weightTextField,ageTextField,ftTextField,inchTextField].forEach { $0.font = UIFont.systemFont(ofSize: frame.width/30) }
+        [heightTextField,weightTextField,ageTextField,ftTextField,inchTextField].forEach { $0.font = UIFont.systemFont(ofSize: frame.width/30);$0.attributedPlaceholder = NSAttributedString(string: $0.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]) }
     }
 }

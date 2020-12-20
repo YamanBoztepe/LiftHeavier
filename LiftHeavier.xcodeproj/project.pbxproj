@@ -17,6 +17,8 @@
 		1C1CD0CF2584266400755C40 /* PersonalDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1CD0CE2584266400755C40 /* PersonalDetailsController.swift */; };
 		1C1CD0D32584291300755C40 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1CD0D22584291300755C40 /* RegisterView.swift */; };
 		1C1CD0D7258558D300755C40 /* PersonalDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1CD0D6258558D300755C40 /* PersonalDetails.swift */; };
+		1C1CD0DB2586C59B00755C40 /* UpdateDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1CD0DA2586C59B00755C40 /* UpdateDetailsController.swift */; };
+		1C1CD0DF258E57D000755C40 /* LocationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1CD0DE258E57CF00755C40 /* LocationDetails.swift */; };
 		1C3BDC3D25576003005575A3 /* StatisticsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3BDC3C25576003005575A3 /* StatisticsController.swift */; };
 		1C3BDC412557617F005575A3 /* BottomViewOfSC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3BDC402557617F005575A3 /* BottomViewOfSC.swift */; };
 		1C3BDC45255763BF005575A3 /* TopViewOfSC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3BDC44255763BF005575A3 /* TopViewOfSC.swift */; };
@@ -80,6 +82,8 @@
 		1C1CD0CE2584266400755C40 /* PersonalDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDetailsController.swift; sourceTree = "<group>"; };
 		1C1CD0D22584291300755C40 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		1C1CD0D6258558D300755C40 /* PersonalDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDetails.swift; sourceTree = "<group>"; };
+		1C1CD0DA2586C59B00755C40 /* UpdateDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDetailsController.swift; sourceTree = "<group>"; };
+		1C1CD0DE258E57CF00755C40 /* LocationDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetails.swift; sourceTree = "<group>"; };
 		1C3BDC3C25576003005575A3 /* StatisticsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsController.swift; sourceTree = "<group>"; };
 		1C3BDC402557617F005575A3 /* BottomViewOfSC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomViewOfSC.swift; sourceTree = "<group>"; };
 		1C3BDC44255763BF005575A3 /* TopViewOfSC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewOfSC.swift; sourceTree = "<group>"; };
@@ -228,10 +232,11 @@
 				1C3BDC3C25576003005575A3 /* StatisticsController.swift */,
 				1C58037425588236003779B8 /* WorkoutStatisticController.swift */,
 				1CC7F45D2565735B00AE19EE /* MoreDetailsController.swift */,
+				1C1CD0CE2584266400755C40 /* PersonalDetailsController.swift */,
 				1CC7F452256439B000AE19EE /* RunningController.swift */,
+				1C1CD0DA2586C59B00755C40 /* UpdateDetailsController.swift */,
 				1C465B1B256EEC500009C7C3 /* RunningMapController.swift */,
 				1C1CD0C02583F21E00755C40 /* RunningDetailsController.swift */,
-				1C1CD0CE2584266400755C40 /* PersonalDetailsController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -353,6 +358,7 @@
 				1C9BEF4C25545FDA00A1E9BD /* CompletedExercises.swift */,
 				1C1CD0B52582BD6B00755C40 /* RunningSummayModel.swift */,
 				1C1CD0D6258558D300755C40 /* PersonalDetails.swift */,
+				1C1CD0DE258E57CF00755C40 /* LocationDetails.swift */,
 			);
 			path = DatabaseModels;
 			sourceTree = "<group>";
@@ -501,6 +507,7 @@
 				1CBF90822544474100E9123B /* WindowSettingsController.swift in Sources */,
 				1CBF90942546EEFF00E9123B /* WorkoutBeginController.swift in Sources */,
 				1CBF90A1254E16B800E9123B /* CurrentExerciseDetails.swift in Sources */,
+				1C1CD0DF258E57D000755C40 /* LocationDetails.swift in Sources */,
 				1CBF9068254446EC00E9123B /* Constants.swift in Sources */,
 				1CBF90992547129500E9123B /* ExerciseCell.swift in Sources */,
 				1C3BDC45255763BF005575A3 /* TopViewOfSC.swift in Sources */,
@@ -519,6 +526,7 @@
 				1C44DB74257BDE6A009D787E /* RunningSummaryView.swift in Sources */,
 				1CBF908B254461FF00E9123B /* TopViewADC.swift in Sources */,
 				1CBF906B254446FA00E9123B /* WindowSettingsModel.swift in Sources */,
+				1C1CD0DB2586C59B00755C40 /* UpdateDetailsController.swift in Sources */,
 				1CD9C3CF256BD9F8004FF88C /* CustomAnimationButton.swift in Sources */,
 				1CBF90702544470C00E9123B /* TopViewOfMainScreen.swift in Sources */,
 				1C1CD0B62582BD6B00755C40 /* RunningSummayModel.swift in Sources */,

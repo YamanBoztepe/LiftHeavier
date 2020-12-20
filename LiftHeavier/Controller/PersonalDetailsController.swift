@@ -7,38 +7,60 @@
 //
 
 import UIKit
+import RealmSwift
 
 class PersonalDetailsController: UIViewController {
     
-    fileprivate let extraView = UIView()
-    fileprivate let topView = TopViewWithBackButton()
+    let extraView = UIView()
+    let topView = TopViewOfRC()
+    let lblInfoText: UILabel = {
+        let lbl = UILabel()
+        lbl.textColor = .white
+        lbl.text = PERSONAL_INFO_TEXT
+        lbl.numberOfLines = 0
+        lbl.textAlignment = .center
+        return lbl
+    }()
     
-    fileprivate let registerView = RegisterView()
-    fileprivate let savebutton = CustomSaveButton()
+    let registerView = RegisterView()
+    let savebutton = CustomSaveButton()
     
-    fileprivate var isMale = true
-    fileprivate var isKg = true
-    fileprivate var isCm = true
+    var isMale = true
+    var isKg = true
+    var isCm = true
+    
+    let realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
         view.keyboardShowObserver()
     }
-    
-    fileprivate func setLayout() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        if realm.objects(PersonalDetails.self).first != nil {
+            navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    func setLayout() {
+        
+        topView.personalDetailButton.isHidden = true
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)
         extraView.backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         
-        [extraView,topView,registerView,savebutton].forEach { view.addSubview($0) }
+        [extraView,topView,lblInfoText,registerView,savebutton].forEach { view.addSubview($0) }
         
         _ = extraView.anchor(top: view.topAnchor, bottom: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
         _ = topView.anchor(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,size: .init(width: 0, height: view.frame.height/15))
-        _ = registerView.anchor(top: topView.bottomAnchor, bottom: savebutton.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor)
+        _ = lblInfoText.anchor(top: topView.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor,padding: .init(top: view.frame.width/30, left: 0, bottom: 0, right: 0))
+        _ = registerView.anchor(top: lblInfoText.bottomAnchor, bottom: savebutton.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor,padding: .init(top: view.frame.width/30, left: 0, bottom: 0, right: 0))
         _ = savebutton.anchor(top: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: nil, trailing: nil,padding: .init(top: 0, left: 0, bottom: view.frame.height/50, right: 0),size: .init(width: view.frame.width/2.5, height: view.frame.height/20))
         
         savebutton.positionInCenterSuperView(centerX: view.centerXAnchor, centerY: nil)
+        lblInfoText.positionInCenterSuperView(centerX: view.centerXAnchor, centerY: nil)
+        lblInfoText.font = UIFont.boldSystemFont(ofSize: view.frame.width/23)
         
         topView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         
@@ -55,18 +77,17 @@ class PersonalDetailsController: UIViewController {
         savebutton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
     }
     
-    
-    @objc fileprivate func kgButtonPressed() {
+    @objc func kgButtonPressed() {
         isKg = true
         registerView.kgButton.backgroundColor = UIColor.rgb(red: 0, green: 128, blue: 0)
         registerView.lbsButton.backgroundColor = .clear
     }
-    @objc fileprivate func lbsButtonPressed() {
+    @objc func lbsButtonPressed() {
         isKg = false
         registerView.kgButton.backgroundColor = .clear
         registerView.lbsButton.backgroundColor = UIColor.rgb(red: 0, green: 128, blue: 0)
     }
-    @objc fileprivate func cmButtonPressed() {
+    @objc func cmButtonPressed() {
         isCm = true
         registerView.cmButton.backgroundColor = UIColor.rgb(red: 0, green: 128, blue: 0)
         registerView.ftButton.backgroundColor = .clear
@@ -74,7 +95,7 @@ class PersonalDetailsController: UIViewController {
         registerView.ftTextField.isHidden = true
         registerView.inchTextField.isHidden = true
     }
-    @objc fileprivate func ftButtonPressed() {
+    @objc func ftButtonPressed() {
         isCm = false
         registerView.cmButton.backgroundColor = .clear
         registerView.ftButton.backgroundColor = UIColor.rgb(red: 0, green: 128, blue: 0)
@@ -82,27 +103,27 @@ class PersonalDetailsController: UIViewController {
         registerView.ftTextField.isHidden = false
         registerView.inchTextField.isHidden = false
     }
-    @objc fileprivate func maleButtonPressed() {
+    @objc func maleButtonPressed() {
         isMale = true
         registerView.maleButton.backgroundColor = UIColor.rgb(red: 0, green: 128, blue: 0)
         registerView.femaleButton.backgroundColor = .clear
     }
-    @objc fileprivate func femaleButtonPressed() {
+    @objc func femaleButtonPressed() {
         isMale = false
         registerView.maleButton.backgroundColor = .clear
         registerView.femaleButton.backgroundColor = UIColor.rgb(red: 0, green: 128, blue: 0)
     }
     
-    @objc fileprivate func backButtonPressed() {
-        navigationController?.view.layer.add(CATransition().fromRightToLeft(), forKey: nil)
+    @objc func backButtonPressed() {
+        navigationController?.view.layer.add(CATransition().fromLeftToRight(), forKey: nil)
         navigationController?.popViewController(animated: true)
     }
     
-    @objc fileprivate func keyboardDismiss() {
+    @objc func keyboardDismiss() {
         self.view.endEditing(true)
     }
     
-    @objc fileprivate func saveButtonPressed() {
+    @objc func saveButtonPressed() {
         
         var isTextEmpty = false
         var age = 0
@@ -170,8 +191,8 @@ class PersonalDetailsController: UIViewController {
             
             PersonalDetails.addPersonalDetails(isMale: isMale, age: age, height: height, weight: weight)
         }
-        
-        navigationController?.popViewController(animated: true)
+        let vc = RunningController()
+        navigationController?.pushViewController(vc, animated: false)
     }
     
 }

@@ -51,6 +51,7 @@ class RunningController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        getUserCoordinate()
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,10 +61,6 @@ class RunningController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         setPulsingView()
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        getUserCoordinate()
     }
     
     fileprivate func setLayout() {
@@ -92,6 +89,7 @@ class RunningController: UIViewController {
         
         lblWeatherInfo.font = UIFont.boldSystemFont(ofSize: view.frame.width/15)
         topView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        topView.personalDetailButton.addTarget(self, action: #selector(personalDetailButtonPressed), for: .touchUpInside)
         
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(startButtonPressed))
         let longGesture2 = UILongPressGestureRecognizer(target: self, action: #selector(extraButtonPressed))
@@ -172,10 +170,6 @@ class RunningController: UIViewController {
     }
     
     
-    @objc fileprivate func backButtonPressed() {
-        popViewControllerWithAnimation()
-    }
-    
     fileprivate func runningButtonActive(sender: UIGestureRecognizer) {
         if sender.state == .began {
             timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(startStopWatch), userInfo: nil, repeats: true)
@@ -189,6 +183,9 @@ class RunningController: UIViewController {
             startButton.shapeLayer.removeAnimation(forKey: "animation")
         }
     }
+    @objc fileprivate func backButtonPressed() {
+        popViewControllerWithAnimation()
+    }
     @objc fileprivate func startButtonPressed(sender: UIGestureRecognizer) {
         runningButtonActive(sender: sender)
     }
@@ -198,6 +195,11 @@ class RunningController: UIViewController {
     
     @objc fileprivate func extraButton2Pressed(sender: UIGestureRecognizer) {
         runningButtonActive(sender: sender)
+    }
+    @objc fileprivate func personalDetailButtonPressed() {
+        let vc = UpdateDetailsController()
+        navigationController?.view.layer.add(CATransition().fromRightToLeft(), forKey: nil)
+        navigationController?.pushViewController(vc, animated: false)
     }
     @objc fileprivate func startStopWatch() {
         stopWatch += 0.1

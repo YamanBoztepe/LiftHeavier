@@ -71,7 +71,7 @@ class RunningSummaryView: UIView {
     fileprivate let lblCaloriesText : UILabel = {
         let lbl = UILabel()
         lbl.textAlignment = .center
-        lbl.text = AVG_PACE
+        lbl.text = CAL
         lbl.textColor = .white
         return lbl
     }()
@@ -83,9 +83,9 @@ class RunningSummaryView: UIView {
         return lbl
     }()
     
-    var avgOfPace : String? {
+    var calories : Int? {
         didSet {
-            guard let cal = avgOfPace else { return }
+            guard let cal = calories else { return }
             lblCalories.text = "\(cal)"
         }
     }
@@ -129,7 +129,7 @@ class RunningSummaryView: UIView {
         setLayout()
         distance = 0.0
         pace = "0:00"
-        avgOfPace = "0:00"
+        calories = 0
     }
     
     

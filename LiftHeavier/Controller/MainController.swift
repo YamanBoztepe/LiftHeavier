@@ -181,9 +181,15 @@ class MainController: UIViewController {
         navigationController?.pushViewController(vc, animated: false)
     }
     @objc fileprivate func runningButtonPressed() {
-        let vc = RunningController()
+        let vc = PersonalDetailsController()
+        let vc2 = RunningController()
         navigationController?.view.layer.add(CATransition().fromRightToLeft(), forKey: nil)
-        navigationController?.pushViewController(vc, animated: false)
+        if realm.objects(PersonalDetails.self).first == nil {
+            navigationController?.pushViewController(vc, animated: false)
+        } else {
+            navigationController?.pushViewController(vc2, animated: false)
+        }
+        
     }
 }
 

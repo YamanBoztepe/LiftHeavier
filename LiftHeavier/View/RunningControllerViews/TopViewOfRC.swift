@@ -17,6 +17,12 @@ class TopViewOfRC: UIView {
         return lbl
     }()
     
+    let personalDetailButton: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(named: "person")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        return btn
+    }()
+    
     let backButton : UIButton = {
        let btn = UIButton()
         btn.setImage(UIImage(named: "forwardButton")?.withRenderingMode(.alwaysOriginal), for: .normal)
@@ -36,8 +42,10 @@ class TopViewOfRC: UIView {
     fileprivate func setLayout() {
         backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         
-        [lblText,backButton].forEach { addSubview($0) }
+        [personalDetailButton,lblText,backButton].forEach { addSubview($0) }
         
+        _ = personalDetailButton.anchor(top: nil, bottom: nil, leading: leadingAnchor, trailing: nil,padding: .init(top: 0, left: frame.width/30, bottom: 0, right: 0))
+        personalDetailButton.positionInCenterSuperView(centerX: nil, centerY: centerYAnchor)
         _ = backButton.anchor(top: nil, bottom: nil, leading: nil, trailing: trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: frame.width/30))
         backButton.positionInCenterSuperView(size: .init(width: frame.width/20, height: frame.height/2), centerX: nil, centerY: centerYAnchor)
         
