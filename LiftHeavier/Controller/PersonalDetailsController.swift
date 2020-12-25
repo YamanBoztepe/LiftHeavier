@@ -8,11 +8,8 @@
 
 import UIKit
 import RealmSwift
-import CoreLocation
 
 class PersonalDetailsController: UIViewController {
-    
-    let locationManager = CLLocationManager()
     
     let extraView = UIView()
     let topView = TopViewOfRC()
@@ -46,14 +43,12 @@ class PersonalDetailsController: UIViewController {
             navigationController?.popViewController(animated: true)
         }
         
-        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
-            self.locationManager.requestWhenInUseAuthorization()
-        }
     }
     
     func setLayout() {
         
         topView.personalDetailButton.isHidden = true
+        topView.runningDetailButton.isHidden = true
         view.backgroundColor = UIColor.rgb(red: 45, green: 45, blue: 45)
         extraView.backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23)
         

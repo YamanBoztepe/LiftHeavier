@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import CoreLocation
 
 class MainController: UIViewController {
     
@@ -16,6 +17,8 @@ class MainController: UIViewController {
     fileprivate let extraTopView = UIView()
     fileprivate let extraBottomView = UIView()
     fileprivate var collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
+    
+    let locationManager = CLLocationManager()
     
     let realm = try! Realm()
     var windowSettingsList : Results<WindowSettingsModel>? {
@@ -50,6 +53,14 @@ class MainController: UIViewController {
         setLayout(collectionView: collectionView)
         windowSettingsList = realm.objects(WindowSettingsModel.self)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
+            self.locationManager.requestWhenInUseAuthorization()
+        }
     }
     
     fileprivate func setLayout(collectionView : UICollectionView) {
@@ -230,10 +241,10 @@ extension MainController: CheckExerciseCompleted {
             let messageLabel : UILabel = {
                 let lbl = UILabel()
                 lbl.text = ALERT_COMPLETED_TEXT
-                lbl.textColor = .green
+                lbl.textColor = UIColor.green
                 lbl.textAlignment = .center
                 lbl.numberOfLines = 0
-                lbl.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+                lbl.backgroundColor = UIColor.rgb(red: 23, green: 23, blue: 23).withAlphaComponent(0.5)
                 lbl.layer.cornerRadius = view.frame.width/12
                 lbl.clipsToBounds = true
                 return lbl
