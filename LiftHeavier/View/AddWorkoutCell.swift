@@ -11,7 +11,7 @@ import UIKit
 class AddWorkoutCell: UITableViewCell {
 
     static let IDENTIFIER : String = "AddWorkoutCell"
-    
+    let deneme = "a"
     let txtExerciseName : UILabel = {
         let lbl = UILabel()
         lbl.text = EXERCISE_NAME
